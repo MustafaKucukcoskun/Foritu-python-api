@@ -9,14 +9,6 @@ RUN apt-get update && \
 # Çalışma dizinini ayarla
 WORKDIR /app
 
-# Gizli bilgileri mount et ve environment değişkenleri olarak ayarla
-RUN --mount=type=secret,id=SUPABASE_URL \
-  --mount=type=secret,id=SUPABASE_KEY \
-  --mount=type=secret,id=SUPABASE_BUCKET \
-  sh -c 'echo "SUPABASE_URL=$(cat /run/secrets/SUPABASE_URL)" >> /etc/environment && \
-  echo "SUPABASE_KEY=$(cat /run/secrets/SUPABASE_KEY)" >> /etc/environment && \
-  echo "SUPABASE_BUCKET=$(cat /run/secrets/SUPABASE_BUCKET)" >> /etc/environment'
-
 # requirements.txt dosyasını kopyala
 COPY requirements.txt .
 
@@ -32,8 +24,10 @@ RUN ./venv/bin/pip install --no-cache-dir -r requirements.txt
 # Uygulama dosyalarını kopyala
 COPY . .
 
-# Uygulamanın çalışması için gerekli environment değişkenlerini ayarlamak
-RUN set -a && . /etc/environment && set +a
+# Environment değişkenlerini ayarla
+ENV SUPABASE_URL=https://kjoenbrfqxljeklnmbev.supabase.co
+ENV SUPABASE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtqb2VuYnJmcXhsamVrbG5tYmV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjUxMTIxMzAsImV4cCI6MjA0MDY4ODEzMH0.nHwB5kF4CybdoidcPTQZWd-vCHVgq4QTgXVPpRsC5Bo
+ENV SUPABASE_BUCKET=qr_pdf
 
 # Uygulamayı çalıştır
 EXPOSE 8080

@@ -9,20 +9,21 @@ RUN apt-get update && \
 # Çalışma dizinini ayarla
 WORKDIR /app
 
-# Sanal ortam oluştur
+# Sanal ortam oluştur (pip kurulumundan önce)
 RUN python3 -m venv venv
 
-# requirements.txt dosyasını kopyala
+# requirements.txt dosyasını kopyala ve paketleri yükle
 COPY requirements.txt .
-
-# Sanal ortamda pip'i kullanarak paketleri yükle
 RUN ./venv/bin/pip install --no-cache-dir -r requirements.txt
 
-# .env dosyasını kopyala
+# .env dosyasını kopyala (runtime'da ortam değişkenlerini sağlamak için)
 COPY .env .
 
 # Uygulama dosyalarını kopyala
 COPY . .
+
+# Not: Ortam değişkenleri .env dosyasından otomatik yükleniyor
+# Dockerfile içinde hardcoded kimlik bilgileri YOK
 
 # Uygulamayı çalıştır
 EXPOSE 8080

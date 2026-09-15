@@ -9,17 +9,17 @@ RUN apt-get update && \
 # Çalışma dizinini ayarla
 WORKDIR /app
 
+# Sanal ortam oluştur
+RUN python3 -m venv venv
+
 # requirements.txt dosyasını kopyala
 COPY requirements.txt .
 
-# .env dosyasını kopyala
-COPY .env .
-
-# Sanal ortam oluştur ve etkinleştir
-RUN python3 -m venv venv
-
 # Sanal ortamda pip'i kullanarak paketleri yükle
 RUN ./venv/bin/pip install --no-cache-dir -r requirements.txt
+
+# .env dosyasını kopyala
+COPY .env .
 
 # Uygulama dosyalarını kopyala
 COPY . .

@@ -24,11 +24,6 @@ RUN ./venv/bin/pip install --no-cache-dir -r requirements.txt
 # Uygulama dosyalarını kopyala
 COPY . .
 
-# Environment değişkenlerini ayarla
-ENV SUPABASE_URL=https://kjoenbrfqxljeklnmbev.supabase.co
-ENV SUPABASE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtqb2VuYnJmcXhsamVrbG5tYmV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjUxMTIxMzAsImV4cCI6MjA0MDY4ODEzMH0.nHwB5kF4CybdoidcPTQZWd-vCHVgq4QTgXVPpRsC5Bo
-ENV SUPABASE_BUCKET=qr_pdf
-
 # Uygulamayı çalıştır
 EXPOSE 8080
 CMD ["./venv/bin/uvicorn", "main:app", "--host=0.0.0.0", "--port=8080"]
